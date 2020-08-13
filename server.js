@@ -4,6 +4,8 @@ const { request, gql } = require("graphql-request");
 const timestamp = require("time-stamp");
 const cron = require("node-cron");
 
+const { ethers } = require("ethers");
+
 const firstPlace = require("./firstPlace");
 const secondPlace = require("./secondPlace");
 
@@ -40,23 +42,26 @@ request("https://dev.dhedge.org/graphql", query).then((data) => {
 
   console.log(leaders);
   poolName1st = leaders[0].pool;
-  poolPrice1st = leaders[0].price;
+  poolPrice1st = Number(ethers.utils.formatEther(leaders[0].price)).toFixed(2);
+
+  // poolPrice1st = 1.278030609694604597
+  // console.log(typeof poolPrice1st); // string
 
   poolName2nd = leaders[1].pool;
-  poolPrice2nd = leaders[1].price;
+  poolPrice2nd = Number(ethers.utils.formatEther(leaders[1].price)).toFixed(2);
 
   poolName3rd = leaders[2].pool;
-  poolPrice3rd = leaders[2].price;
+  poolPrice3rd = Number(ethers.utils.formatEther(leaders[2].price)).toFixed(2);
 
   return leaders;
 });
 
 // Every 5 seconds, call the GraphQL API
 // additionally, update the discord bot's name and playing activity
-cron.schedule("*/5 * * * * *", () => {
+cron.schedule("*/1 * * * *", () => {
   console.log(
     timestamp.utc("YYYY/MM/DD:mm:ss"),
-    ": querying the api every 5 seconds"
+    ": querying the api every 1 mins"
   );
   // fetchData(); // can we call
   firstPlace.getData(poolName1st, poolPrice1st);
