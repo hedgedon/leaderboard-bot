@@ -30,16 +30,17 @@ const query = gql`
 
 // FETCH DATA AND SET THE NICKNAME EVERY X SECONDS
 const fetchData = () => {
-  let pool = "";
-  let price = 0;
+  let pool1 = "";
+  let price1 = 0;
 
-  let first = 0;
-  let second = 0;
-  let third = 0;
+  let pool2 = "";
+  let price2 = 0;
+
+  let pool3 = "";
+  let price3 = 0;
 
   request("https://dev.dhedge.org/graphql", query).then((data) => {
     const funds = data.funds.content;
-    // console.log(funds);
     const leaders = funds.map((fund) => {
       return {
         price: fund.tokenPrice,
@@ -48,34 +49,38 @@ const fetchData = () => {
     });
 
     console.log(leaders);
-    // take the above array of funds' prices, take the first one only
-    price = leaders[0].price;
-    pool = leaders[0].pool;
+    pool1 = leaders[0].pool;
+    price1 = leaders[0].price;
+
+    pool2 = leaders[1].pool;
+    price2 = leaders[1].price;
+
+    pool3 = leaders[2].price;
+    price3 = leaders[2].price;
 
     return leaders;
   });
 
   // function to set a single bot
   // what if we passed in a argument, could we dynamically do setNickname & setActivity 3 times (DRY CODE)
-  async function fetchIt() {
+  async function setBot() {
     const guild = client.guilds.cache.get(`${serverId}`);
-    // console.log(guild);
-
     // SET POOL NAME
-    guild.me.setNickname(`1st) ${pool} 🏆`);
+    guild.me.setNickname(`1st) ${pool2} 🏆`);
 
     // SET POOLS TOKEN VALUE AS PLAYING
-    client.user.setActivity(`$${price}`, {
+    client.user.setActivity(`$ ${price2}`, {
       type: "PLAYING",
     });
+    // console.log(price);
   }
 
   // ** INVOKE DISCORD BOT **
   client.on("ready", () => {
     console.log("Discord bot is Online, please wait while fetching data");
-    fetchIt();
+    setBot(); // need to call this 3 times
   });
-  client.login(token);
+  client.login(token); // 1 token per bot (need 3 total)
 };
 
 // Every 2 seconds, call the GraphQL API
