@@ -49,8 +49,8 @@ const fetchData = () => {
 
     console.log(leaders);
     // take the above array of funds' prices, take the first one only
-    first = leaders[0].price;
-    testName = leaders[0].pool;
+    price = leaders[0].price;
+    pool = leaders[0].pool;
 
     return leaders;
   });
@@ -62,10 +62,10 @@ const fetchData = () => {
     // console.log(guild);
 
     // SET POOL NAME
-    guild.me.setNickname(`1st) ${testName} 🏆`);
+    guild.me.setNickname(`1st) ${pool} 🏆`);
 
     // SET POOLS TOKEN VALUE AS PLAYING
-    client.user.setActivity(`$${first}`, {
+    client.user.setActivity(`$${price}`, {
       type: "PLAYING",
     });
   }
