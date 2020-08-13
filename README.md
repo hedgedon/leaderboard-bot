@@ -1,1 +1,1 @@
-# graphql-testing
+# graphql-discord
