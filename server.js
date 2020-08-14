@@ -8,6 +8,7 @@ const { ethers } = require("ethers");
 
 const firstPlace = require("./firstPlace");
 const secondPlace = require("./secondPlace");
+const thirdPlace = require("./thirdPlace");
 
 const query = gql`
   {
@@ -66,4 +67,5 @@ cron.schedule("*/1 * * * *", () => {
   // fetchData(); // can we call
   firstPlace.getData(poolName1st, poolPrice1st);
   secondPlace.getData(poolName2nd, poolPrice2nd);
+  thirdPlace.getData(poolName3rd, poolPrice3rd);
 });

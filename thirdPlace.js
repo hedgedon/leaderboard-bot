@@ -1,22 +1,22 @@
 require("dotenv").config();
 
-const getData = (poolName1st, poolPrice1st) => {
+const getData = (poolName3rd, poolPrice3rd) => {
   // DISCORD CONFIG
   // Discord.js Config
   const Discord = require("discord.js");
   const client = new Discord.Client();
-  const token = process.env.BOT_TOKEN;
+  const token = process.env.BOT3_TOKEN;
   const serverId = process.env.DEV_SERVER_ID;
 
-  console.log(poolName1st, poolPrice1st);
+  console.log(poolName3rd, poolPrice3rd);
 
   async function setBot() {
     const guild = client.guilds.cache.get(`${serverId}`);
     // SET POOL NAME
-    guild.me.setNickname(`${poolName1st} 🏆`);
+    guild.me.setNickname(`${poolName3rd}`);
 
     // SET POOLS TOKEN VALUE AS PLAYING
-    client.user.setActivity(`$${poolPrice1st}`, {
+    client.user.setActivity(`$${poolPrice3rd}`, {
       type: "PLAYING",
     });
     // console.log(price);

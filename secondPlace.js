@@ -13,7 +13,7 @@ const getData = (poolName2nd, poolPrice2nd) => {
   async function setBot() {
     const guild = client.guilds.cache.get(`${serverId}`);
     // SET POOL NAME
-    guild.me.setNickname(`2nd) ${poolName2nd} 🏆`);
+    guild.me.setNickname(`${poolName2nd}`);
 
     // SET POOLS TOKEN VALUE AS PLAYING
     client.user.setActivity(`$${poolPrice2nd}`, {
