@@ -1,3 +1,3 @@
-const leaderboard = require("./graphql-request-example");
+const leaderboard = require("./graphqlRequest");
 
 leaderboard.getData();

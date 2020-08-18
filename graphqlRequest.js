@@ -4,11 +4,10 @@ const cron = require("node-cron");
 
 const { ethers } = require("ethers");
 
-// const firstPlaceBot = require("./firstPlace");
-// const firstPlaceBot = require("./firstPlace");
-// const firstPlaceBot = require("./firstPlace");
-const fourthPlaceBot = require("./fourthPlace");
-const fifthPlaceBot = require("./fifthPlace");
+const firstPlaceBot = require("./firstPlace");
+const secondPlaceBot = require("./secondPlace");
+const thirdPlaceBot = require("./thirdPlace");
+
 
 const query = gql`
   {
@@ -34,11 +33,6 @@ let poolPrice2nd = 0;
 let poolName3rd = "";
 let poolPrice3rd = 0;
 
-let poolName4th = "";
-let poolPrice4th = 0;
-
-let poolName5th = "";
-let poolPrice5th = 0;
 
 const getData = () => {
   const fetchQuery = () => {
@@ -54,35 +48,34 @@ const getData = () => {
       });
 
       console.log(leaders);
+
+      // FIRST PLACE
       poolName1st = leaders[0].pool;
       poolPrice1st = Number(ethers.utils.formatEther(leaders[0].price)).toFixed(
         2
       );
 
-      // TEST ONLY 4th and 5th POOL
-      poolName4th = leaders[3].pool;
-      poolPrice4th = Number(ethers.utils.formatEther(leaders[3].price)).toFixed(
-        2
-      );
-      // FIFTH PLACE
-      poolName5th = leaders[4].pool;
-      poolPrice5th = Number(ethers.utils.formatEther(leaders[4].price)).toFixed(
+      // SECOND PLACE
+      poolName2nd = leaders[1].pool;
+      poolPrice2nd = Number(ethers.utils.formatEther(leaders[1].price)).toFixed(
         2
       );
 
-      // console.log(poolName1st, poolPrice1st);
+      // THIRD PLACE
+      poolName3rd = leaders[2].pool;
+      poolPrice3rd = Number(ethers.utils.formatEther(leaders[2].price)).toFixed(
+        2
+      );
 
       console.log(`*fetched at: ${timeStamp}`);
-      // console.log(funds);
 
-      // return the others here
       return {
         poolName1st,
         poolPrice1st,
-        poolName4th,
-        poolPrice4th,
-        poolName5th,
-        poolPrice5th,
+        poolName2nd,
+        poolPrice2nd,
+        poolName3rd,
+        poolPrice3rd
       };
     });
   };
@@ -93,13 +86,9 @@ const getData = () => {
       timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 5 sec"
     );
     fetchQuery();
-    fourthPlaceBot.getData(poolName4th, poolPrice4th);
-    fifthPlaceBot.getData(poolName5th, poolPrice5th);
-    // fourthPlaceBot.getData(poolName4th, poolPrice4th);
-    // fourthPlaceBot.getData(poolName4th, poolPrice4th);
-    // xauBot.getData(sXAU, sXAURate);
-    // xagBot.getData(sXAG, sXAGRate);
-    // defiBot.getData(sDEFI, sDEFIRate);
+    firstPlaceBot.getData(poolName1st, poolPrice1st);
+    secondPlaceBot.getData(poolName2nd, poolPrice2nd);
+    thirdPlaceBot.getData(poolName3rd, poolPrice3rd);
   });
 };
 exports.getData = getData;

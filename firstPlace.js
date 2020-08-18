@@ -5,7 +5,7 @@ const getData = (poolName1st, poolPrice1st) => {
   // Discord.js Config
   const Discord = require("discord.js");
   const client = new Discord.Client();
-  const token = process.env.TEST_FIRST_BOT_TOKEN;
+  const token = process.env.BOT_TOKEN;
   const serverId = process.env.DEV_SERVER_ID;
 
   console.log(poolName1st, poolPrice1st);
