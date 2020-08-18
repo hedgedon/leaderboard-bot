@@ -9,8 +9,10 @@ const getData = (sXAU, sXAURate) => {
   const token = process.env.SYNTH_TOKEN;
   const serverId = process.env.DEV_SERVER_ID;
 
-  async function fetchIt() {
-    const guild = client.guilds.cache.get("739542913662320791");
+  // ** INVOKE DISCORD BOT **
+  client.on("ready", () => {
+    console.log("Discord bot is Online, please wait while fetching data");
+    const guild = client.guilds.cache.get(serverId);
 
     // SET BOT NAME
     guild.me.setNickname(`$${sXAURate} `);
@@ -19,12 +21,6 @@ const getData = (sXAU, sXAURate) => {
     client.user.setActivity(`${sXAU}/sUSD`, {
       type: "PLAYING",
     });
-  }
-
-  // ** INVOKE DISCORD BOT **
-  client.on("ready", () => {
-    console.log("Discord bot is Online, please wait while fetching data");
-    fetchIt();
   });
 
   client.login(token);

@@ -4,7 +4,8 @@ const cron = require("node-cron");
 
 const { ethers } = require("ethers");
 
-const bot = require("./discordBot");
+// const bot = require("./discordBot");
+const bot = require("./testing");
 
 const query = gql`
   {
@@ -66,11 +67,11 @@ const fetchQuery = () => {
     sDEFI = data.sdefi[0].synth;
     sDEFIRate = Number(ethers.utils.formatEther(data.sdefi[0].rate)).toFixed(2);
 
-    console.log(sXAU, sXAURate);
-    console.log(sXAG, sXAGRate);
-    console.log(sDEFI, sDEFIRate);
+    // console.log(sXAU, sXAURate);
+    // console.log(sXAG, sXAGRate);
+    // console.log(sDEFI, sDEFIRate);
 
-    console.log(`*fetched at: ${timeStamp}`);
+    // console.log(`*fetched at: ${timeStamp}`);
 
     return { sXAU, sXAG, sDEFI };
   });
@@ -78,7 +79,7 @@ const fetchQuery = () => {
 
 cron.schedule("*/5 * * * * *", () => {
   console.log("------");
-  console.log("running a task every 5 second");
+  // console.log("running a task every 5 second");
   fetchQuery();
   bot.getData(sXAU, sXAURate);
 });
