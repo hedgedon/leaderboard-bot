@@ -11,7 +11,7 @@ const thirdPlaceBot = require("./thirdPlace");
 
 const query = gql`
   {
-    funds(sortBy: "tokenPrice", order: "DESC", page: 1, pageSize: 10) {
+    funds(sortBy: "tokenPrice", order: "DESC", page: 1, pageSize: 5) {
       content {
         address
         fundName
@@ -83,7 +83,7 @@ const getData = () => {
   cron.schedule("*/60 * * * * *", () => {
     console.log("------");
     console.log(
-      timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 5 sec"
+      timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 60 sec"
     );
     fetchQuery();
     firstPlaceBot.getData(poolName1st, poolPrice1st);
