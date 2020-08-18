@@ -32,7 +32,7 @@ let poolPrice2nd = 0;
 let poolName3rd = "";
 let poolPrice3rd = 0;
 
-request("https://dev.dhedge.org/graphql", query).then((data) => {
+request("https://api.dhedge.org/graphql", query).then((data) => {
   const funds = data.funds.content;
   const leaders = funds.map((fund) => {
     return {
