@@ -1,32 +1,26 @@
 require("dotenv").config();
+const Discord = require("discord.js");
+const client = new Discord.Client();
+const token = process.env.TEST_BOT_TOKEN;
+const serverId = process.env.DEV_SERVER_ID;
+client.login(token); 
 
-const getData = (poolName4th, poolPrice4th) => {
-  // DISCORD CONFIG
-  // Discord.js Config
-  const Discord = require("discord.js");
-  const client = new Discord.Client();
-  const token = process.env.TEST_4_BOT_TOKEN;
-  const serverId = process.env.DEV_SERVER_ID;
+client.on("ready", () => {
+  console.log("Discord bot is Online, please wait while fetching data");
+  getData();
+});
+client.on('rateLimit', (info) => {
+  console.log(`Rate limit hit ${info.timeDifference ? info.timeDifference : info.timeout ? info.timeout: 'Unknown timeout '}`)
+});
 
-  console.log(poolName4th, poolPrice4th);
+const getData = (poolName1st, poolPrice1st) => {
+  const guild = client.guilds.cache.get(`${serverId}`);
+  // SET POOL NAME
+  guild.me.setNickname(`1. ${poolName1st} 🏆`);
 
-  async function setBot() {
-    const guild = client.guilds.cache.get(`${serverId}`);
-    // SET POOL NAME
-    guild.me.setNickname(`4. ${poolName4th} 🏆`);
-
-    // SET POOLS TOKEN VALUE AS PLAYING
-    client.user.setActivity(`$${poolPrice4th}`, {
-      type: "PLAYING",
-    });
-    // console.log(price);
-  }
-
-  // ** INVOKE DISCORD BOT **
-  client.on("ready", () => {
-    console.log("Discord bot is Online, please wait while fetching data");
-    setBot(); // need to call this 3 times
+  // SET POOLS TOKEN VALUE AS PLAYING
+  client.user.setActivity(`$${poolPrice1st}`, {
+    type: "PLAYING",
   });
-  client.login(token); // 1 token per bot (need 3 total)
 };
 exports.getData = getData;

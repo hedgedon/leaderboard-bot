@@ -4,9 +4,10 @@ const cron = require("node-cron");
 
 const { ethers } = require("ethers");
 
-const firstPlaceBot = require("./firstPlace");
-const secondPlaceBot = require("./secondPlace");
-const thirdPlaceBot = require("./thirdPlace");
+// const firstPlaceBot = require("./firstPlace");
+// const secondPlaceBot = require("./secondPlace");
+// const thirdPlaceBot = require("./thirdPlace");
+const fourthPlaceBot = require("./fourthPlace");
 
 
 const query = gql`
@@ -24,14 +25,18 @@ const query = gql`
 
 const url = "https://api.dhedge.org/graphql";
 
-let poolName1st = "";
-let poolPrice1st = 0;
+// let poolName1st = "";
+// let poolPrice1st = 0;
 
-let poolName2nd = "";
-let poolPrice2nd = 0;
+// let poolName2nd = "";
+// let poolPrice2nd = 0;
 
-let poolName3rd = "";
-let poolPrice3rd = 0;
+// let poolName3rd = "";
+// let poolPrice3rd = 0;
+
+let poolName4th = "";
+let poolPrice4th = 0;
+
 
 
 const getData = () => {
@@ -49,46 +54,32 @@ const getData = () => {
 
       console.log(leaders);
 
-      // FIRST PLACE
-      poolName1st = leaders[0].pool;
-      poolPrice1st = Number(ethers.utils.formatEther(leaders[0].price)).toFixed(
-        2
-      );
-
-      // SECOND PLACE
-      poolName2nd = leaders[1].pool;
-      poolPrice2nd = Number(ethers.utils.formatEther(leaders[1].price)).toFixed(
-        2
-      );
-
-      // THIRD PLACE
-      poolName3rd = leaders[2].pool;
-      poolPrice3rd = Number(ethers.utils.formatEther(leaders[2].price)).toFixed(
+      
+      // FOURTH PLACE
+      poolName4th = leaders[3].pool;
+      poolPrice4th = Number(ethers.utils.formatEther(leaders[2].price)).toFixed(
         2
       );
 
       console.log(`*fetched at: ${timeStamp}`);
 
       return {
-        poolName1st,
-        poolPrice1st,
-        poolName2nd,
-        poolPrice2nd,
-        poolName3rd,
-        poolPrice3rd
+        poolName4th,
+        poolPrice4th
       };
     });
   };
 
-  cron.schedule("*/15 * * * *", () => {
+  cron.schedule("*/30 * * * * *", () => {
     console.log("------");
     console.log(
-      timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 15 mins"
+      timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 30 sec"
     );
     fetchQuery();
-    firstPlaceBot.getData(poolName1st, poolPrice1st);
-    secondPlaceBot.getData(poolName2nd, poolPrice2nd);
-    thirdPlaceBot.getData(poolName3rd, poolPrice3rd);
+    // firstPlaceBot.getData(poolName1st, poolPrice1st);
+    // secondPlaceBot.getData(poolName2nd, poolPrice2nd);
+    // thirdPlaceBot.getData(poolName3rd, poolPrice3rd);
+    fourthPlaceBot.getData(poolName4th, poolPrice4th);
   });
 };
 exports.getData = getData;
