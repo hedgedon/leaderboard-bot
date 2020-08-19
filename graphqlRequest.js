@@ -80,10 +80,10 @@ const getData = () => {
     });
   };
 
-  cron.schedule("*/60 * * * * *", () => {
+  cron.schedule("*/3 * * * * ", () => {
     console.log("------");
     console.log(
-      timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 60 sec"
+      timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 3 mins"
     );
     fetchQuery();
     firstPlaceBot.getData(poolName1st, poolPrice1st);
