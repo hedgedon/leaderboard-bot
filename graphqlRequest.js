@@ -4,11 +4,9 @@ const cron = require("node-cron");
 
 const { ethers } = require("ethers");
 
-// const firstPlaceBot = require("./firstPlace");
-// const secondPlaceBot = require("./secondPlace");
-// const thirdPlaceBot = require("./thirdPlace");
-const fourthPlaceBot = require("./fourthPlace");
-const fifthPlaceBot = require("./fifthPlace");
+const firstPlaceBot = require("./firstPlace");
+const secondPlaceBot = require("./secondPlace");
+const thirdPlaceBot = require("./thirdPlace");
 
 const query = gql`
   {
@@ -25,20 +23,14 @@ const query = gql`
 
 const url = "https://api.dhedge.org/graphql";
 
-// let poolName1st = "";
-// let poolPrice1st = 0;
+let poolName1st = "";
+let poolPrice1st = 0;
 
-// let poolName2nd = "";
-// let poolPrice2nd = 0;
+let poolName2nd = "";
+let poolPrice2nd = 0;
 
-// let poolName3rd = "";
-// let poolPrice3rd = 0;
-
-let poolName4th = "";
-let poolPrice4th = 0;
-
-let poolName5th = "";
-let poolPrice5th = 0;
+let poolName3rd = "";
+let poolPrice3rd = 0;
 
 const getData = () => {
   const fetchQuery = () => {
@@ -55,40 +47,48 @@ const getData = () => {
 
       console.log(leaders);
 
-      // FOURTH PLACE
-      poolName4th = leaders[3].pool;
-      poolPrice4th = Number(ethers.utils.formatEther(leaders[3].price)).toFixed(
+      // FIRST PLACE
+      poolName1st = leaders[0].pool;
+      poolPrice1st = Number(ethers.utils.formatEther(leaders[0].price)).toFixed(
         2
       );
 
-      // FIFTH PLACE
-      poolName5th = leaders[4].pool;
-      poolPrice5th = Number(ethers.utils.formatEther(leaders[4].price)).toFixed(
+      // SECOND PLACE
+      poolName2nd = leaders[1].pool;
+      poolPrice2nd = Number(ethers.utils.formatEther(leaders[1].price)).toFixed(
+        2
+      );
+
+      // THIRD PLACE
+      poolName3rd = leaders[2].pool;
+      poolPrice3rd = Number(ethers.utils.formatEther(leaders[2].price)).toFixed(
         2
       );
 
       console.log(`*fetched at: ${timeStamp}`);
 
       return {
-        poolName4th,
-        poolPrice4th,
-        poolName5th,
-        poolPrice5th,
+        poolName1st,
+        poolPrice1st,
+        poolName2nd,
+        poolPrice2nd,
+        poolName3rd,
+        poolPrice3rd,
       };
     });
   };
 
-  cron.schedule("*/30 * * * * *", () => {
+  cron.schedule("*/60 * * * * *", () => {
     console.log("------");
     console.log(
-      timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 30 sec"
+      timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 60 sec"
     );
     fetchQuery();
-    // firstPlaceBot.getData(poolName1st, poolPrice1st);
-    // secondPlaceBot.getData(poolName2nd, poolPrice2nd);
-    // thirdPlaceBot.getData(poolName3rd, poolPrice3rd);
-    fourthPlaceBot.setBot(poolName4th, poolPrice4th);
-    fifthPlaceBot.setBot(poolName5th, poolPrice5th);
+    firstPlaceBot.getData(poolName1st, poolPrice1st);
+    secondPlaceBot.getData(poolName2nd, poolPrice2nd);
+    thirdPlaceBot.getData(poolName3rd, poolPrice3rd);
+    // fourthPlaceBot.setBot(poolName4th, poolPrice4th);
+    // fifthPlaceBot.setBot(poolName5th, poolPrice5th);
   });
 };
 exports.getData = getData;
