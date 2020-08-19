@@ -79,7 +79,7 @@ const getData = () => {
     // firstPlaceBot.getData(poolName1st, poolPrice1st);
     // secondPlaceBot.getData(poolName2nd, poolPrice2nd);
     // thirdPlaceBot.getData(poolName3rd, poolPrice3rd);
-    fourthPlaceBot.getData(poolName4th, poolPrice4th);
+    fourthPlaceBot.setBot(poolName4th, poolPrice4th);
   });
 };
 exports.getData = getData;
