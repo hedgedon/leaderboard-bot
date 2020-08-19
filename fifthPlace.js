@@ -34,6 +34,8 @@ async function setBot(poolName5th, poolPrice5th) {
       type: "PLAYING",
     });
     console.log("executed setBot() to set the name & activity!");
-  } catch (error) {}
+  } catch (error) {
+    console.log("Your Error: ", error);
+  }
 }
 exports.setBot = setBot;
