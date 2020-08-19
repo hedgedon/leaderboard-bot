@@ -27,6 +27,9 @@ const getData = (poolName1st, poolPrice1st) => {
     console.log("Discord bot is Online, please wait while fetching data");
     setBot(); // need to call this 3 times
   });
+  client.on('rateLimit', (info) => {
+    console.log(`Rate limit hit ${info.timeDifference ? info.timeDifference : info.timeout ? info.timeout: 'Unknown timeout '}`)
+  });
   client.login(token); // 1 token per bot (need 3 total)
 };
 exports.getData = getData;
