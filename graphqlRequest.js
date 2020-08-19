@@ -84,9 +84,9 @@ const getData = () => {
       timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 60 sec"
     );
     fetchQuery();
-    firstPlaceBot.getData(poolName1st, poolPrice1st);
-    secondPlaceBot.getData(poolName2nd, poolPrice2nd);
-    thirdPlaceBot.getData(poolName3rd, poolPrice3rd);
+    firstPlaceBot.setBot(poolName1st, poolPrice1st);
+    secondPlaceBot.setBot(poolName2nd, poolPrice2nd);
+    thirdPlaceBot.setBot(poolName3rd, poolPrice3rd);
     // fourthPlaceBot.setBot(poolName4th, poolPrice4th);
     // fifthPlaceBot.setBot(poolName5th, poolPrice5th);
   });
