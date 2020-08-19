@@ -8,7 +8,7 @@ const { ethers } = require("ethers");
 // const secondPlaceBot = require("./secondPlace");
 // const thirdPlaceBot = require("./thirdPlace");
 const fourthPlaceBot = require("./fourthPlace");
-
+const fifthPlaceBot = require("./fifthPlace");
 
 const query = gql`
   {
@@ -37,7 +37,8 @@ const url = "https://api.dhedge.org/graphql";
 let poolName4th = "";
 let poolPrice4th = 0;
 
-
+let poolName5th = "";
+let poolPrice5th = 0;
 
 const getData = () => {
   const fetchQuery = () => {
@@ -54,10 +55,15 @@ const getData = () => {
 
       console.log(leaders);
 
-      
       // FOURTH PLACE
       poolName4th = leaders[3].pool;
-      poolPrice4th = Number(ethers.utils.formatEther(leaders[2].price)).toFixed(
+      poolPrice4th = Number(ethers.utils.formatEther(leaders[3].price)).toFixed(
+        2
+      );
+
+      // FIFTH PLACE
+      poolName5th = leaders[4].pool;
+      poolPrice5th = Number(ethers.utils.formatEther(leaders[4].price)).toFixed(
         2
       );
 
@@ -65,7 +71,9 @@ const getData = () => {
 
       return {
         poolName4th,
-        poolPrice4th
+        poolPrice4th,
+        poolName5th,
+        poolPrice5th,
       };
     });
   };
@@ -80,6 +88,7 @@ const getData = () => {
     // secondPlaceBot.getData(poolName2nd, poolPrice2nd);
     // thirdPlaceBot.getData(poolName3rd, poolPrice3rd);
     fourthPlaceBot.setBot(poolName4th, poolPrice4th);
+    fifthPlaceBot.setBot(poolName5th, poolPrice5th);
   });
 };
 exports.getData = getData;
