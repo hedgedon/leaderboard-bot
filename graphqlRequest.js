@@ -93,7 +93,7 @@ const getData = () => {
     });
   };
 
-  cron.schedule("*/5 * * * * *", () => {
+  cron.schedule("*/60 * * * * *", () => {
     console.log("------");
     console.log(
       timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 60 sec"
