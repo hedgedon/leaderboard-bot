@@ -23,14 +23,14 @@ client.on("rateLimit", (info) => {
   );
 });
 
-async function setBot(poolName3rd, poolPrice3rd) {
+async function setBot(poolName3rd, poolPerformance3rd, poolTotalValue3rd) {
   try {
     const guild = client.guilds.cache.get(`${serverId}`);
     // SET POOL NAME
     await guild.me.setNickname(`3. ${poolName3rd}`);
 
     // SET POOLS TOKEN VALUE AS PLAYING
-    await client.user.setActivity(`$${poolPrice3rd}`, {
+    await client.user.setActivity(`+${poolPerformance3rd}% | ${poolTotalValue3rd}`, {
       type: "PLAYING",
     });
     console.log("executed setBot() to set the name & activity!");

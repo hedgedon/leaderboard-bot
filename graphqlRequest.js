@@ -10,12 +10,13 @@ const thirdPlaceBot = require("./thirdPlace");
 
 const query = gql`
   {
-    funds(sortBy: "tokenPrice", order: "DESC", page: 1, pageSize: 5) {
+    funds(sortBy: "tokenPrice", order: "DESC", page: 1, pageSize: 3) {
       content {
         address
-        fundName
-        managerName
+        name
         tokenPrice
+        performance
+        totalValue
       }
     }
   }
@@ -24,13 +25,16 @@ const query = gql`
 const url = "https://api.dhedge.org/graphql";
 
 let poolName1st = "";
-let poolPrice1st = 0;
+let poolPerformance1st = 0;
+let poolTotalValue1st = 0;
 
 let poolName2nd = "";
-let poolPrice2nd = 0;
+let poolPerformance2nd = 0;
+let poolTotalValue2nd = 0;
 
 let poolName3rd = "";
-let poolPrice3rd = 0;
+let poolPerformance3rd = 0;
+let poolTotalValue3rd = 0;
 
 const getData = () => {
   const fetchQuery = () => {
@@ -38,57 +42,66 @@ const getData = () => {
       const timeStamp = timestamp.utc("YYYY/MM/DD:mm:ss");
 
       const funds = data.funds.content;
-      const leaders = funds.map((fund) => {
+      const leaders = funds.map((pool) => {
         return {
-          price: fund.tokenPrice,
-          pool: fund.fundName,
+          price: pool.tokenPrice,
+          pool: pool.name,
+          performance: pool.performance,
+          totalValue: pool.totalValue
         };
       });
 
       console.log(leaders);
 
-      // FIRST PLACE
-      poolName1st = leaders[0].pool;
-      poolPrice1st = Number(ethers.utils.formatEther(leaders[0].price)).toFixed(
-        2
-      );
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2
+      })
 
+      // FIRST PLACE
+      poolName1st = leaders[0].pool.substring(0,28);
+      poolPerformance1st = parseFloat(ethers.utils.formatUnits(leaders[0].performance, 18))
+      poolPerformance1st = Number((poolPerformance1st - 1) * 100).toFixed(2)
+      poolTotalValue1st = formatter.format(ethers.utils.formatUnits(leaders[0].totalValue, 18));
+      
       // SECOND PLACE
-      poolName2nd = leaders[1].pool;
-      poolPrice2nd = Number(ethers.utils.formatEther(leaders[1].price)).toFixed(
-        2
-      );
+      poolName2nd = leaders[1].pool.substring(0,28);
+      poolPerformance2nd = parseFloat(ethers.utils.formatUnits(leaders[1].performance, 18))
+      poolPerformance2nd = Number((poolPerformance2nd - 1) * 100).toFixed(2)
+      poolTotalValue2nd = formatter.format(ethers.utils.formatUnits(leaders[1].totalValue, 18));
 
       // THIRD PLACE
-      poolName3rd = leaders[2].pool;
-      poolPrice3rd = Number(ethers.utils.formatEther(leaders[2].price)).toFixed(
-        2
-      );
+      poolName3rd = leaders[2].pool.substring(0,28);
+      poolPerformance3rd = parseFloat(ethers.utils.formatUnits(leaders[2].performance, 18))
+      poolPerformance3rd = Number((poolPerformance3rd - 1) * 100).toFixed(2)
+      poolTotalValue3rd = formatter.format(ethers.utils.formatUnits(leaders[2].totalValue, 18));
 
       console.log(`*fetched at: ${timeStamp}`);
 
       return {
         poolName1st,
-        poolPrice1st,
+        poolPerformance1st,
+        poolTotalValue1st,
         poolName2nd,
-        poolPrice2nd,
+        poolPerformance2nd,
+        poolTotalValue2nd,
         poolName3rd,
-        poolPrice3rd,
+        poolPerformance3rd,
+        poolTotalValue3rd
       };
     });
   };
 
-  cron.schedule("*/60 * * * * *", () => {
+  cron.schedule("*/5 * * * * *", () => {
     console.log("------");
     console.log(
       timestamp.utc("[YYYY/MM/DD:mm:ss]") + "running a task every 60 sec"
     );
     fetchQuery();
-    firstPlaceBot.setBot(poolName1st, poolPrice1st);
-    secondPlaceBot.setBot(poolName2nd, poolPrice2nd);
-    thirdPlaceBot.setBot(poolName3rd, poolPrice3rd);
-    // fourthPlaceBot.setBot(poolName4th, poolPrice4th);
-    // fifthPlaceBot.setBot(poolName5th, poolPrice5th);
+    firstPlaceBot.setBot(poolName1st, poolPerformance1st, poolTotalValue1st);
+    secondPlaceBot.setBot(poolName2nd, poolPerformance2nd, poolTotalValue2nd);
+    thirdPlaceBot.setBot(poolName3rd, poolPerformance3rd, poolTotalValue3rd);
   });
 };
 exports.getData = getData;
