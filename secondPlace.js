@@ -30,7 +30,7 @@ async function setBot(poolName2nd, poolPerformance2nd, poolTotalValue2nd) {
     await guild.me.setNickname(`2. ${poolName2nd}`);
 
     // SET POOLS TOKEN VALUE AS PLAYING
-    await client.user.setActivity(`+${poolPerformance2nd}% | ${poolTotalValue2nd}`, {
+    await client.user.setActivity(`🥈 +${poolPerformance2nd}% | ${poolTotalValue2nd}`, {
       type: "PLAYING",
     });
     console.log("executed setBot() to set the name & activity!");
