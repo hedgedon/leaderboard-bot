@@ -10,7 +10,7 @@ const thirdPlaceBot = require("./thirdPlace");
 
 const query = gql`
   {
-    funds(sortBy: "tokenPrice", order: "DESC", page: 1, pageSize: 3) {
+    funds(sortBy: "performance", order: "DESC", page: 1, pageSize: 3) {
       content {
         address
         name
