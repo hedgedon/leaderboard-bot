@@ -8,6 +8,8 @@ const firstPlaceBot = require('./firstPlace');
 const secondPlaceBot = require('./secondPlace');
 const thirdPlaceBot = require('./thirdPlace');
 
+const url = process.env.API_ENDPOINT;
+
 const query = gql`
   {
     funds(sortBy: "score", order: "DESC", page: 1, pageSize: 3) {
@@ -21,8 +23,6 @@ const query = gql`
     }
   }
 `;
-
-const url = 'https://api.dhedge.org/graphql';
 
 let poolName1st = '';
 let poolPerformance1st = 0;
@@ -50,8 +50,6 @@ const getData = () => {
           totalValue: pool.totalValue,
         };
       });
-
-      console.log(leaders);
 
       const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
